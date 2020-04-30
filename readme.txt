@@ -1,0 +1,2 @@
+gsy.file
+test space£¡
