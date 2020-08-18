@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/* 
+			 *
+			 * prompt()可以弹出一个提示框，可以在框中输入内容
+			 * 用户输入的内容会作为函数的返回值返回，可以定义一个变量来接收
+			 * 
+			 * 
+			 * prompt()函数的返回值是String类型
+			 * 
+			 * */
+			/* do{
+			var a = prompt("请输入小明考试成绩(0-100):");
+			a=parseInt(a);
+			}while(a>100 || a<0); */
+			
+			/* while(true){
+				var a = prompt("请输入小明考试成绩(0-100):");
+				a=parseInt(a);
+				if(a>=0 && a<=100)
+				break;
+				alert("请输入有效的分数");
+			}
+			
+			
+			//判断值是符合法
+			if(a > 100 || a < 0 || isNaN(a)){
+				alert("拉出去毙了！！！");
+			}else{
+				if(a == 100){
+				alert("奖励宝马！！");
+			}else if(a >= 80){
+				alert("奖励iphone15s");
+			}else if(a >= 60){
+				alert("奖励一本参考书");
+			}else{
+				alert("考这么点头给你打歪！");
+			}
+			} */
+			
+			
+		   /* var a = prompt("请输入小明考试成绩:");
+		   if(a>50){
+			   alert("饶你不死！");
+		   }else{
+			   alert("准备受死！");
+		   } */
+		  //三个数求最大值
+		   /* var num1=prompt("请输入num1的值");
+		   var num2=prompt("请输入num2的值");
+		   var num3=prompt("请输入num3的值");
+		   var max = num1>=num2?num1:num2;
+		   max = max>=num3?max:num3; 
+		   alert("三个数分别为:"+num1+","+num2+","+num3);
+		   alert("max="+max); */
+		   
+		   //三个数从大到小排序
+		   /* var num1=+prompt("请输入num1的值");
+		   var num2=+prompt("请输入num2的值");
+		   var num3=+prompt("请输入num3的值");
+		   
+		   if(num1>num2 && num1>num3){
+			   //说明num1最大
+			   if(num2>num3){
+				   alert("num1,num2,num3从大到小分别是："+num1+","+num2+","+num3);
+			   }else{
+				   alert("num1,num2,num3从大到小分别是："+num1+","+num3+","+num2);
+			   }
+		   }else if(num2>num1 && num2>num3){
+			   //num2最大
+			   if(num1>num3){
+				   alert("num1,num2,num3从大到小分别是："+num2+","+num1+","+num3);
+			   }else{
+				   alert("num1,num2,num3从大到小分别是："+num2+","+num3+","+num1);
+			   }
+		   }else if(num3>num1 && num3>num2){
+			   //num3最大
+				if(num1>num2){
+					alert("num1,num2,num3从大到小分别是："+num3+","+num1+","+num2);
+				}else{
+					alert("num1,num2,num3从大到小分别是："+num3+","+num2+","+num1);
+				}
+		   }else if(num1==num2 && num1==num3){
+			   alert("num1,num2,num3从大到小分别是："+num1+","+num2+","+num3);
+		   } */
+		   
+				
+		   
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

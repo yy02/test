@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/* 
+			常用的创建对象的方法
+			 var obj=new Object();
+			
+			
+			使用字面量创建一个对象
+			 */
+			var obj={};    //简单的创建对象的方式
+			console.log(typeof obj);
+			obj.name="孙悟空";
+			console.log(obj.name);
+			/* 
+			 使用对象字面量可以在创建对象时可以直接指定对象中的属性
+			 语法：{属性名：属性值，属性名：属性值。。。}
+			 对象字面量的属性名可以加引号也可以不加
+			 如果要使用一些特殊的名字则必须加引号
+			 
+			 属性名和属性值是一组一组的名值对结构
+			 名和值之间用:连接，多个名值之间用,隔开
+			 一个属性后没有多余的属性就不写了
+			 */
+			var obj={
+				name:"猪八戒",
+				age:28,
+				gender:"男",
+				test:{name:"沙和尚"}
+			};
+			//console.log(obj.test);
+			
+			
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

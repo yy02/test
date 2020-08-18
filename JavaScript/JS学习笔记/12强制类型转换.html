@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/*
+			强制类型转换
+			指将一个数据类型强制转换成其他的数据类型
+			*/
+		   /*null和undefined没有toString()方法！无法使用toString（）强制类型转化
+		     但是可以用String函数进行转换*/
+		   /*
+		   转换成String类型
+		   方式1.调用被转换数据类型的toString()方法,该方法不会影响原变量，
+				会直接将转换的结果返回，则用var b=a.toString();或者a=a.toString();。
+		   方式2.调用String()函数，并将被转换的数据作为参数传递给函数
+				a=String(a);
+				使用函数进行强制类型转换时，对于number和Boolean实际上就是调用的toString（）方法
+				但是对于null和undefined，就不会调用toString（）方法
+				他会直接将null转换成"null"，将undefined直接转换成"undefined"
+		   */
+		  var a=123;
+		  
+		  a.toString();
+		  
+		  console.log(typeof a);
+		  console.log(a);
+		  /*
+		  将数据类型转化成Number
+		  没有toNumber()方法！！！！
+		  方式1.使用Number()函数
+				调用Number()函数将a转换成Number类型
+				a=Number(a);本身是数字的转换成Number，有非数字的内容转换成NaN；如果是空串或空格，则转换成0；
+				布尔类型转数值，true转成1，false转成0；
+				但是Number()的局限在于字符串里的非数字都会转成NaN，如果从css框架中获取了一个123px的值，则无法进行加减运算！
+		  方式2.专门对字符串用
+				parseInt()把一个字符串转换成一个整数
+				parseFloat()把字符串转成成浮点数
+				parseInt可以将字符串中有效的整数内容取出然后转换成Number；
+				以0x开头表示十六进制：0x65，0xff
+				以0开头的数字表示八进制：070
+				以0b开头的表示二进制数字：0b10
+				在解析的过程中，可以选择在parseInt(a,10)后面传入一个10的参数表示解析的是十进制数字。
+				
+		  */
+			/*
+			将其他类型转换成Boolean
+			唯一的方法是使用Boolean()函数
+			数字转布尔除了0和NaN其余的都是true；
+			字符串转布尔除了空串其余的都输true；
+			null转布尔是false；
+			undefined转布尔是false；
+			对象会转换为true；
+			*/
+		   var a=123;
+		   
+		   a=Boolean(a);
+		   console.log(a);
+		   console.log(typeof a);
+		   
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

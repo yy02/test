@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/* 
+			定义一个函数：判断一个数字是否是偶数，如果是就返回true
+			，不是就返回false
+			*/
+		   function isou(num){
+			  /* if(num%2==0){
+				   return true;
+			   }else
+			   return false; */
+			   return num%2==0;
+		   }
+		   var result=isou(3);
+		   //console.log("result="+result);
+		   
+		   
+		   
+		   
+		   
+		   /* 
+		   定义一个函数可以根据半径计算一个圆的面积，并返回结果
+		   */
+		  function circle(r){
+			  return 3.14*r*r;
+		  }
+		  var result=circle(3);
+		  //console.log("result="+result);
+		  
+		  
+		  
+		  
+		  /* 
+		  创建一个函数，可以在控制台输出一个人的信息
+		  可以输出人的name，age，gender，address
+		  
+		  实参可以是任意的数据类型，也可以是一个对象
+		  当我们的参数过多时，可以将参数封装到一个对象中，然后通过对象传递
+		  */
+		 function pmessage(o){
+			 console.log("我是"+o.name+","+"今年我"+o.age+"岁了");
+		 }
+		 
+		 
+		 var obj={
+			 name:"孙悟空",
+			 age:18,
+			 gender:"男",
+			 address:"花果山"
+		 }
+		 //pmessage(obj);
+		 
+		 
+		 
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

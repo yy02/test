@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			//假设投资的年利率为5%，试求从1000涨到5000块钱需要多少年
+			/* var n=0,m=1000;
+			while(m<=5000){
+				n++;
+				m=m*1.05;
+			}
+			alert(n); */
+			//打印1-100之间所有奇数之和
+			/* var sum=0;
+			for(var i=1;i<=100;i++){
+				if(i%2==0){
+					i+0;
+				}else{
+					sum=sum+i;
+				}
+			}
+			alert(sum); */
+			
+			
+			//1-100之间所有7的倍数的个数以及总合
+			/* var sum=0,j=0;
+			for(i=1;i<=100;i++){
+				if(i%7==0){
+					sum=sum+i;
+					j++;
+				}
+			}alert("个数为"+j+"总和为"+sum); */
+			
+			
+			//水仙花数是指一个三位数，他的每个位数上的数字的三次幂之和等于它本身
+			//求所有的水仙花数
+			/* var sum=0;
+			for(var i=100;i<1000;i++){
+				//第一位数a
+				var a=parseInt(i/100);
+				//第二位数b
+				var b=parseInt((i%100)/10);
+				//第三位数c
+				var c=i%10;
+				if((a*a*a + b*b*b + c*c*c) == i){
+					sum++;
+					console.log(i);
+				}
+			}alert("共"+sum+"朵水仙花!!!"); */
+			
+			
+			
+			//在页面接受一个用户输入的数字，然后判断是否为质数
+			/* var m=prompt("请输入一个自然数！！");
+			var flag=true;
+			if(m<=1){
+				alert("请输入自然数（大于1的整数）!");
+			}else{
+				
+				for(var i=2;i<m;i++){
+					if(m%i==0){
+						//不是质数
+						
+						flag=false;
+					}
+				}
+				if(flag){
+					alert(m+"是质数!!");
+				}else{
+					alert(m+"不是质数！！");
+				}
+				
+			} */
+			
+			
+			
+			
+			
+			//打印99乘法表
+			/* for(var i=1;i<10;i++){
+				for(var j=1;j<i+1;j++){		
+				document.write(j+"*"+i+"="+i*j+"&nbsp;&nbsp;&nbsp;&nbsp");
+				//document.write("<span>"+j+"*"+i+"="+i*j+"</span>");//添加css样式在script标签后面
+				}
+				document.write("<br />");
+			} */
+						
+			
+			
+			
+			
+			
+			//打印出1-100之间所有的质数
+			
+			/* for(var i=2;i<=100;i++){
+				var flag=true;
+				for(var j=2;j<i;j++){
+					if(i%j==0){
+						flag=false;
+					}
+				}
+				if(flag){
+				document.write(i+"<br />");
+				//document.write(i+"&nbsp;&nbsp");
+				}
+			} */
+			
+			//质数联系补充
+			//测试如下程序的性能，在程序执行前开启一个计时器
+			//console.time("计时器的名字")可以用来开启一个计时器，他需要一个字符串作为参数，这个字符串可以作为计时器的标识
+			console.time("test");
+			for(var i=2;i<=100;i++){
+				var flag=true;
+				for(var j=2;j<i;j++){
+					//优化2.....for(var j=2;j<=Math.qurt(i);j++)
+					if(i%j==0){
+						flag=false;
+						break;//优化1.....此处使用break退出当前循环，可以提升效率
+					}
+				}
+				if(flag){
+				document.write(i+"<br />");
+				//document.write(i+"&nbsp;&nbsp");
+				}
+			}
+			
+			//终止计时器
+			//console.timeEnd()来终止计时器；
+			//Math.sqrt();可以对一个数进行开方
+			console.timeEnd("test");
+			
+			
+			
+			
+			
+			
+			
+		</script>
+		<style type="text/css">
+			//可以在css标签中设置body的宽度
+			body{
+				width: 2000px;
+			}
+			
+			span{
+				display: inline-block;
+				width: 80px;
+			}
+		</style>
+	</head>
+	<body>
+	</body>
+</html>

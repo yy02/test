@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			
+			// var a = "123abc";
+			// //a=Number(a);
+			
+			// a=parseInt(a,16);
+			// console.log(typeof a);
+			// console.log(a);
+			/* 
+			运算符对一个或者多个值进行运算,并获取运算结果
+			 比如typeof可以来获取一个值的类型,他会将一个值的类型以字符串的形式返回
+			 当对非Number的值进行运算时，会将这些值转换成Number然后在进行运算
+			 (加法运算除外)
+			 任何值和NaN做运算最后结果都是NaN
+			 如果对两个字符串进行加法运算则会进行拼串操作；
+			 
+			 
+			 */
+			
+			var a = 123;
+			var result = typeof a;
+			//console.log(result);
+			//console.log(typeof a);
+			//console.log(typeof result);//typeof的返回类型是一个字符串
+			/*
+			算术运算符
+			+，-，*，/，%
+			*/
+			result=true+1;
+			//console.log(result);
+			result=true+false;
+			//console.log(result);
+			result=2+null;
+			result=2+false;
+			result=true+1;
+			result=2+NaN;      			//任何数值和NaN相加返回值都是NaN
+			result="123"+"456";			//字符串相加进行拼接操作，然后返回；
+			var str="cbjhabhj"+
+					"shgfshf"+
+					"smhbfsmb";			//+可以进行换行操作
+			result=123+"1";				//任何值和字符串做加法运算
+										//都会转换成字符串然后和字符串做拼串操作
+			result=true+"hello";
+			
+			var c=123;
+			c=String(c);//可以利用数值和字符串相加转字符串拼串的操作用空字符
+			//c=c+"";  可以利用这一特性将任意数据类型转换成String类型只需要加一个空串（隐式类型转换）
+			/*console.log("c="+c);
+			console.log(typeof c);
+			console.log(c);
+			*/
+		   result=1+2+"3";//33
+		   result="1"+2+3;//123
+		   //console.log("result="+result);
+			
+			/*console.log(result);
+			console.log(str);
+			console.log(typeof result);
+			*/
+		</script>
+		<script type="text/javascript">
+			//除了加号，其他的运算都转换成Number类型后进行运算！
+			result=100-"1";//99
+			
+			result=2*"8";//16
+			
+			result=2*undefined;//NaN
+			
+			result=2*null;//0
+			
+			result=4/2;//2
+			
+			result=3/2;//1.5
+			
+			/*
+			任何值做-.*.../.运算时，都会自动转换成Number
+			我们可以利用特点做隐式类型转化
+			-0；*1；/1
+			+0不可以，加操作时遇到字符串会转字符串；
+			*/
+		   var d="132";
+		   
+			//console.log("result="+result);
+			
+			// console.log(typeod d);
+			// console.log(d);
+			result=9%3.7;//取余
+			console.log(result);
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

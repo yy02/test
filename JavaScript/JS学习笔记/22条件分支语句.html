@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/* 
+			 *switch语句
+			 * 语法
+			 * 		switch(条件表达式){
+				 case 表达式1:
+					语句...
+					break;
+				case 表达式2:
+					语句...
+					break;	
+				default:
+					语句...
+					break;
+			 }
+			 
+			 执行流程
+					switch case语句在执行时会依次将cassette后的表达式和switch后的条件表达式进行全等比较
+					如果比较结果为true，则从当前case处开始执行代码(当前case后的代码都会执行)。如果比较结果为false则继续比较
+					如果所有结果都为false，则执行最后面的default后面的语句
+					switch语句的功能和if语句功能有重复的，两者可以互相代替的
+					所以在使用时可以根据自己的习惯选择
+			 * 根据num的值输出对应的中文
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * */
+			 /* var a = "ada";
+			 switch(a){
+				 case 1:
+				 console.log("1");
+				 //使用break可以退出switch语句
+				 break;
+				 case 2:
+				 console.log("2");
+				 break;
+				 case 3:
+				 console.log("3");
+				 break;
+				 case "abc":
+				 console.log("feifa");
+				 break;
+				default:
+				console.log("feifa");
+				break;
+			 } */
+			 /* var a= prompt("请输入成绩:");
+			 switch(parseInt(a/10)){
+				 case 6:
+				 case 7:
+				 case 8:
+				 case 9:
+				 case 10:
+				 console.log("合格!");
+				 break;
+				 default:
+				 console.log("不合格！");
+				 break;
+			 } */
+			 var a=66;
+			 switch(true){
+				 case a>=60:
+				 console.log("合格!");
+				 break;
+				 default:
+				 console.log("不合格！");
+				 break;
+			 }
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

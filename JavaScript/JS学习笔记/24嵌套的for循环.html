@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+		
+			/* 
+			 *通过程序在页面输出如下图形
+			 * 
+			 **
+			 ***
+			 ****
+			 *****
+			 ******
+			 
+			 *****
+			 *****
+			 *****
+			 *****
+			 *****
+			 
+			 向body中输出内容
+			 
+			 
+			 
+			 * */
+			 
+			 //document.write("*****<br />");
+			 
+			 //通过for循环输出图形
+			 //外部循环控制长度，内部循环控制宽度
+			 //&nbsp;在网页中表示空格
+			 for(i=0;i<5;i++){
+				 for(j=0;j<5-i;j++){
+					 document.write("*&nbsp;&nbsp;&nbsp");
+				 }
+				 document.write("<br />")
+			 }
+			 
+			 
+			 
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

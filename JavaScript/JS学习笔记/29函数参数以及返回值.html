@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/* 
+			function
+			 函数是一个对象
+			 函数可以封装一些功能，在需要时可以执行这些功能（代码）
+			 使用typeof检查一个函数对象时会返回一个function
+			 */
+			
+			//创建一个函数对象
+			//可以将要封装的代码以字符串的形式传递给函数
+			//var fun=new Function("console.log('hello,这是我的第一个函数');");
+			//在实际开发中很少使用构造函数来创建一个函数对象
+			//console.log(fun);
+			//console.log(typeof fun);
+			//封装到函数中的代码不会立即执行，只会在函数调用的时候执行
+			//调用方法：函数对象（）
+			//当调用函数时，函数中封装的代码会按照顺序执行
+			//函数对象具有普通对象的功能
+			//fun();
+			//使用函数声明来创建一个函数
+			/* 
+			语法：function 函数名(形参1，形参2，.....形参n){
+				语句...
+			}
+			 */
+			function fun2(){
+				console.log("这是我的第二个函数!");
+				alert("hhhhh");
+				document.write("~~~~(>_<)~~~~");
+			}
+			//调用fun2
+			//fun2();
+			/* 
+			使用函数表达式来创建一个函数
+			 var 函数名=function([形参1，形参2...形参n]){
+				 语句
+			 }
+			 */
+			/* var fun3=function(){
+				console.log("我是匿名函数中封装的代码")
+			}; */
+			
+			/* 
+			 定义一个求和函数
+			 可以在函数的括号里指定一个或者多个形参（形式参数）
+			 多个形参之间使用,隔开，声明形参就相当于在函数内部声明了对应的变量
+			 但是并不赋值
+			 */
+			/* function sum(a,b){
+				
+				
+				console.log(a+b);
+				
+			} */
+			
+			
+			
+			
+			//在调用函数时可以在括号中指定实参（实际参数）
+			//sum(123,234);
+			/* 
+			 调用函数时浏览器不会检查实参的类型
+			 函数的实参可以是任意数据类型
+			 sum(123,"hello");
+			 所以要注意是否有可能会接收到非法参数，如果有可能则需要对参数进行类型检查
+			 调用函数时解析器也不会检查实参的数量
+			 sum(123,456,"hello",true,null);
+			 多余的实参不会赋值
+			 如果是实参的数量小于形参的数量，没有对应的形参就是undefined
+			 sum(123);
+			 */
+			
+			/* 
+			 创建一个函数用来计算三个数的和
+			 
+			 可以使用return 来设置函数的返回值
+			 语法：
+			 return 值;
+			 return后的值将会作为函数的执行结果返回
+				可以定义一个变量来接收一个结果
+			
+			在函数中return后的语句都不会执行
+			如果return后不跟任何值就相当于返回undefined
+			函数中不写return也会返回undefined
+			return后可以跟任意类型的值
+			 */
+			function sum(a,b,c){
+				//alert(a+b+c);
+				var d = a+b+c;
+				return d;
+			}
+			//var result=sum(4,5,6);
+			//console.log("result="+result);
+			//var result=alert("hello");
+			//console.log("result="+result);
+			//result为undefined说明alert没有返回值
+			
+			function fun(){
+				alert("函数要执行了。");
+				for(var a=0;a<5;a++){
+					if (a == 2){
+						//break;//使用break可以退出当前循环
+						//continue;//用于跳过当次循环
+						return;//可以结束整个函数
+					}
+					console.log(a);
+				}
+				alert("函数执行完了。");
+			}
+			//fun();
+			
+			/* 
+			返回值可以是任意的数据类型
+			 也可以是一个对象,也可以是一个函数
+			 */
+			function fun2(){
+				//var obj={name:"沙和尚"}
+				
+				//return obj;
+			}
+			var a=fun2();
+			//console.log("a="+a);
+			
+			function fun3(){
+				//在函数内部再声明一个函数
+				function fun4(){
+					alert("我是fun4");
+				}
+				fun4();
+			}
+			fun3();
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

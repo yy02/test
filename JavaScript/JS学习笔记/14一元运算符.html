@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/* 
+			 一元运算符只需要一个操作数
+			 + 号不会对数值产生任何影响
+			 - 号可以对数字进行取反
+			 
+			 */
+			var a=123;
+			//a=+a;
+			//a+=a;
+			//对于非Number的值先转换成Number再进行运算
+			//可以对一个其他类型的数值加一个正号进行数值转换操作
+			
+			a=true;
+			a=-a;
+			
+			/* console.log("a="+a);
+			console.log(typeof a); */
+			var result = 1+"2"+3;
+			result=1+ +"2"+3;
+			result = 1 + +"NaN"+3;
+			result = 1 + +"undefined"+3;
+			result = 1 + undefined +3;
+			result = 1 + NaN+3;
+			console.log("result="+result);
+			
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
