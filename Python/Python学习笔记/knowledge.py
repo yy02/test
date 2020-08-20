@@ -208,4 +208,205 @@ changeGlobal()  # 执行修改的函数
 
 # 运行结果显示没有修改，说明局部变量pro和全局变量pro是两回事，想要修改的话要借助关键字global
 
-37
+
+
+'''
+
+参数的传递
+
+1.在Python中 万物皆对象 在函数调用的时候，实参传递的就是对象的引用。
+2.了解了原理之后就可以更好的把控函数内部的处理是否会影响到外部数据的变化
+    
+    
+    参数传递是通过对象的引用来完成的
+
+
+匿名函数
+
+Python中使用lambda关键字创建匿名函数，匿名函数就是不需要def关键字创建标准的函数
+    主要代码为  
+        lambda 参数1,参数2,参数3:执行语句
+    匿名函数自带return，返回的结果就是匿名函数的计算结果，所以需要创建一个变量来接收
+    
+    缺点就是lambda只能是单个表达式不是一个代码块。它的设计就是为了满足简单函数的场景。
+    仅能封装有限的逻辑，对于复杂逻辑，只能用def标准函数来做。
+    
+    使用lambda表达式计算两个数之和：
+        test = lambda x,y : x+y
+        test(1,3)
+    换成普通标准函数就是：
+        def test(x,y):
+            return x+y
+
+三元运算符的简化：
+    age = 15
+    if age> = 18:
+        print('可以参军')
+    else:
+        print('继续上学')
+
+简化后：
+age = 15
+print('可以参军' if age >= 18 else '继续上学')
+
+
+对于匿名函数：
+    funcTest = lambda x,y: x if x>y else y
+    funcTest(12,13)
+也可以在定义的时候直接赋值：
+    rs = (lambda x,y:x if x>y else y)(12,13)
+    print(rs)
+
+
+
+
+递归函数：
+    在函数内部调用自己本身的函数，递归函数必须满足一个结束递归的条件
+    优点：逻辑简单，定义简单
+    缺点：容易导致栈溢出，内存资源紧张甚至内存纰漏
+    
+    
+# 求10的阶乘
+def func(n):
+    res = 1
+    for i in range(1,n+1):
+        res *= i
+    return res
+
+print(func(4))
+
+
+# 递归的方式去实现：
+def digui(n):
+    if n == 1:
+        return 1
+    else:
+        return n*digui(n-1)
+
+print(digui(5))
+
+
+39集 16分21秒有自己关于递归返回的注释
+
+
+
+递归案例：树形结构的遍历
+模拟文件搜索：对C盘ATTO文件夹下的所有文件进行检索
+import os
+def findFile(file_Path):
+    listRs = os.listdir(file_Path) #得到该路径下的文件夹
+    for fileItem in listRs:
+        full_Path = os.path.join(file_Path,fileItem) #获取完整的文件路径
+        if os.path.isdir(full_Path): #判断是否是文件夹
+            findFile(full_Path) #如果是一个文件夹再次去递归搜索
+        else:
+            print(fileItem)
+    else:
+        return
+
+findFile('C:\\ATTO')
+
+
+
+Python内置运算函数：
+
+abs()取绝对值 
+round()四舍五入
+pow()求幂   pow(3,3)相当于3的三次方或者3**3也可以表示
+divmod() 求商和余数  例如divmod(9,3) 结果是(3,0)
+max() 最大值  接收的参数可以是一个序列
+min() 最小值
+sum() 求和
+eval() 可以动态执行表达式的函数，表达式可以是一个字符串
+a,b,c = 1,2,3
+eval('a+b+c') 是一个简单的表达式函数，相当于把字符串的引号去掉当成一串代码来执行
+
+
+
+序列操作：字符串，元组，列表
+
+all()  对象的元素除了0，空，false 外都是true，包括空元组和列表
+
+any()  对象的元素只要有一个为真那么结果就是返回真，类似于逻辑运算符or的判断
+
+sorted() 可以对所有可迭代对象进行排序，默认升序排列。sorted()方法排序后返回的是一个新的list，而不是在原来的数据上进行操作，所以可以对所有的可迭代对象进行操作
+
+sort() 只可以对列表对象进行排序，是在原来的对象上进行操作，所以不能对元组进行操作，因为元组一旦定义就不可以修改
+
+li = [1,3,6,5,8,7,]
+# li.sort()  #list的排序方法直接修改原始对象
+
+
+print('-----------修改之前---------'.format(li))
+varList = sorted(li)
+# 默认生序排列，想要降序排列的话可以在后面加上关键字reverse
+# 比如 varList = sorted(li,reverse=true)  #降序排列
+# 此处由于sorted()排序完成后会生成一个新的list，所以需要一个变量来接收新的list
+print('-----------修改之后---------'.format(varList))
+
+
+reverse()  函数用于反向列表中的元素
+
+range(start,stop,step)
+
+zip() 主要用于将可迭代的对象作为参数，将对象中的元素打包成元组，然后返回一个列表
+
+#打包压缩图书信息
+
+def bookInfo():
+    books = []
+    id = input('请输入图书编号：（空格分隔）')
+    name = input('请输入图书名称：（空格分隔）')
+    pos = input('请输入图书位置：（空格分隔）')
+    idList = id.split(' ')
+    nameList = name.split(' ')
+    posList = pos.split(' ')
+    booksInfo = zip(idList,nameList,posList)
+    for items in booksInfo:
+        dictInfo = {'编号':items[0],'书名':items[1],'位置':items[2]}
+        books.append(dictInfo)
+        pass
+    for i in books:
+        print(i)
+
+bookInfo()
+
+
+
+
+enumerate() #用于讲一个可遍历的数据对象用时取出数据和数据下标，一般用在for循环中
+listobj = ['a','b','c']
+for item in enumerate(listobj):
+    print(item)
+
+for index,item in enumerate(listobj):
+    print(index,item)
+
+for index,item in enumerate(listobj,5):#表示下标从5开始
+    print(index,item)
+
+# 创建字典添加元素
+dicObj = {}
+dicObj['name'] = 'gsy'
+dicObj['age'] = '18'
+dicObj['sex'] = 'm'
+print(dicObj)
+for item in enumerate(dicObj):
+    print(item)
+
+
+
+
+
+
+
+
+47
+
+'''
+
+
+
+
+
+
