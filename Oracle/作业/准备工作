@@ -1,0 +1,18 @@
+sqlplus
+system/1234;
+create user oaec identified by oaec;
+grant connect,resource to oaec;
+grant create view to oaec;							--创建视图需要的权限
+conn oaec/oaec;
+alter session set nls_date_language=english;		--修改会话时间格式
+start E:\数据库\Oracle\作业\oaec.sql;
+
+
+
+drop user oaec cascade;   					--删除用户相关数据以及缓存
+col name format a10; 	  					--给相关数据规定长度
+col num format 99999;     					--给数字规定长度为5位
+select table_name from user_tables;			--显示当前用户所包含的所有表
+desc s_dept;			   					--查看s_dept表的名称，类型结构
+select * from s_dept       					--查看表s_dept中的所有数据
+C:\oraclexe\app\oracle\product\11.2.0\server\network\ADMIN--navicat

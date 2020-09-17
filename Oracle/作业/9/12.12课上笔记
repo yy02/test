@@ -1,0 +1,107 @@
+
+
+--给s_emp的主键创建一个序列 
+
+create sequence s_emp_id_seq    --序列的起名方式为    表名_主键名_seq
+start with 1					--起始值
+increment by 1;					--步长
+
+--序列不允许改变序列的初始值 
+alter sequence s_emp_id_seq
+increment by 1;
+
+
+
+drop sequence s_emp_id_seq;
+
+--序列查看是从已经定义的上一个值开始的，如果初始值定义的是1，那么在序列中的第一位就是0，
+--但是并没有存储数据，如果用currval的话就是从0开始查询，这样由于0位置并没有数据，所以查询结果出错
+--解决方法就是用nextval，自动转移向下一个位置。
+insert into s_emp
+(id,last_name,first_name)
+values
+(s_emp_id_seq.nextval,'python','datebasse');            --currval
+
+
+
+select sequence_name from user_sequences;  --查看序列
+
+
+
+
+--视图创建完成后可以将其看成一张表进行直接查询
+create or replace view vw_emp_salary		
+(id,name,salary)
+as
+	select id,first_name||''||last_name,salary
+	from s_emp;
+
+select * from vw_emp_salary;
+
+
+
+create or replace view vw_emp_dept_region
+as
+	select  e.id eid,e.first_name,d.id did,d.name,r.id rid,r.name rname
+	from s_emp  e
+	left join s_dept d
+	on e.dept_id=d.id
+	left join s_region r
+	on d.region_id=r.id
+with read only;					--只读格式的视图
+
+
+select * from vw_emp_dept_region;
+
+
+
+/*
+主键自带索引
+索引需要资源,需要占用内存
+word3
+*/
+
+--创建索引
+create index idx_s_emp_first_name			--给员工表的名字创建索引。起名格式：索引_表名_字段名
+on s_emp(first_name);
+
+drop index idx_s_emp_first_name;			--删除索引
+
+
+create index idx_s_dept_name				--给部门表的名字创建索引
+on s_dept(name);
+
+drop index idx_s_dept_name;
+
+
+
+--查看表中创建的索引
+
+select table_name,index_name
+from all_indexes
+where table_name='S_EMP';
+
+
+select table_name,index_name
+from all_indexes
+where table_name='S_DEPT';					--用table_name 进行查询的时候，表名要用大写，小写查询不到。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

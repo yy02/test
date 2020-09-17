@@ -1,0 +1,37 @@
+
+
+
+--查询每个客户名，以及相应的销售名
+select c.name cname,e.first_name ename
+from s_customer c,s_emp e
+where c.sales_rep_id=e.id;
+
+
+--查询每个员工名所在的部门名区域名
+col ename format a10;
+col dname format a10;
+col rname format a10;
+select e.first_name ename,d.name dname,r.name rname
+from s_emp e, s_dept d,s_region r
+where e.dept_id=d.id and d.region_id=r.id;
+
+
+--查询员工编号，姓名，以及他领导的员工编号，姓名
+select e.id eid,e.first_name ename,m.id mid,m.first_name mname
+from s_emp e, s_emp m
+where e.manager_id=m.id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,159 @@
+--查询员工编号，员工姓名，员工所在部门编号，员工所在部门名称，部门所在区域编号，区域名称。
+SELECT e.id eid, e.first_name||' '||e.last_name name, 
+d.id did, d.name department, 
+r.id rid, r.name region
+FROM s_emp as e, s_dept as d, s_region as r
+WHERE e.dept_id = d.id and d.region_id=r.id;
+
+
+--查询每个员工的编号，姓名，以及他的领导的员工编号，姓名
+SELECT e1.id eid, e1.first_name||' '||e1.last_name name, 
+       e2.id lid, e2.first_name||' '||e2.last_name name 
+FROM s_emp as e1, s_emp as e2
+WHERE e1.manager_id = e2.id;
+
+
+--查询每个员工的编号，薪资和薪资等级。
+SELECT e.id eid, e.salary salary, g.grade grade
+FROM s_emp e, s_salgrade g
+WHERE e.salary BETWEEN g.losal AND g.hisal;
+
+--查看每个员工编号，姓名，部门名称，薪资，薪资等级，他的上级的编号，名称，薪资，薪资等级。薪资等级不用ABCD，而是转换成“一级”，“二级”，“三级”，“四级”。
+select e.id eid, e.first_name ename, d.name edname, e.salary esalary, g.grade egrade,
+			case g.grade
+				when 'A' then '一级'
+				when 'B' then '二级'
+				when 'C' then '三级'
+				 else '四级'
+			end egrade,
+		me.id mid, me.firstname mname, md.name mdnname, me.salary mesalary, mg.grade mgrade
+			case mg.grade
+				when 'A' then '一级'
+				when 'B' then '二级'
+				when 'C' then '三级'
+				 else '四级'
+			end mgrade,
+from s_emp e,s_dept d, s_salgrade g, s_emp m, s_dept md, s_salgrade mg
+where e.dept_id=me.id
+and e.salary between g.losal and g.hisal
+and e.manager_id=m.id
+and me.dept_id=m.id
+and me.salary between mg.losal and mg.hisal;
+
+
+--查询入职时间早于其他领导的员工
+select e.id eid,e.first_name ename,e.start_date etime, 
+	  m.id mid,m.first_name mname,m.start_date mtime
+from s_emp e, s_emp m
+where e.manager_id=m.id
+and (e.start_date < m.start_date);
+
+
+
+--外连接 会显示主表中所有的内容，内连接就是常有的基础查询语句，内连接是会自动忽略查询结果中内容为空值的记录。
+--查询每个客户及对应的销售。
+/*
+select c.name cname, e.id eid, e.first_name ename
+from s_customer c,s_emp e
+where c.sales_rep_id=e.id;
+*/
+ --左外连接
+select c.name cname, e.id eid, e.first_name ename
+from s_customer c
+left join s_emp e
+on c.sales_rep_id=e.id;     														--右外连接
+
+
+--查询每个部门名以及对应的区域名。
+select d.name dname,r.name rname
+from s_dept d
+left join s_region r
+on d.region_id=r.id;
+
+--查询每个员工的名字，以及对应的领导的名字。
+/*
+select e.id eid,e.first_name ename,m.id mid,m.first_name mname
+from s_emp e,s_emp m
+where e.manager_id=m.id;
+*/
+
+--左外连接
+select e.id eid,e.first_name ename,m.id mid,m.first_name mname
+from s_emp e
+left join s_emp  m
+on e.manager_id=m.id;
+
+
+--集合运算
+--union将两表中重复的部分只显示一次
+--union  all将两表中重复的部分也照常显示
+
+
+--查询所有员工编号大于10或者小于20的员工。
+--union
+SELECT first_name,id
+FROM s_emp
+WHERE id>10
+UNION
+SELECT first_name,id
+FROM s_emp
+WHERE id<20;
+--union all
+SELECT first_name,id
+FROM s_emp
+WHERE id>10
+UNION ALL
+SELECT first_name,id
+FROM s_emp
+WHERE id<20;
+
+
+
+--查询员工表中的前10行，查询员工编号，名字。
+SELECT id,first_name,rownum
+FROM s_emp
+WHERE rownum<11;				--rownum后面只能跟小于或者小于等于。rownum是在结果集的基础上给结果集加上一个用于排次序的数组，总是从一开始。所以在1不存在的话那么下一个就是1，永远不可能有2。所以大于等于不存在。
+--rowid不会出现这种情况，rowid是在空间上对结果集进行定义，就是本来就有那些空间，只是把产生 的结果集一个一个放进去而已。所以可以直接进行运用。不会出现查询不到的错误。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,903 @@
+create user oaec identified by 1234;
+grant connect,resource to oaec;
+alter session nls_date_language=english;
+
+/*1.
+查询所有员工的first_name和last_name,要求查询结果为一列，用逗号隔开，并且列名为Name*/
+select first_name||','||last_name Name 
+from s_emp
+
+/*2.	查看员工的员工id，名字和年薪,年薪列名为annual（注意如果有提成，需要算进去）*/
+select id,last_name,salary*12*(1+NVL(commission_pct,0)/100) as annual from S_EMP;
+
+/*3.
+查看员工的员工id，全名和职位名称，全名和职位名称合并成一列显示，且格式为：姓 名，职位名称*/
+select id,(first_name ||' '|| last_name ||','|| title) as "姓   名,   职位名称"
+from s_emp
+
+/*4.
+查看员工号1,3,5,7,9员工的工资
+*/
+select id,salary
+from s_emp
+where id in(1,3,5,7,9)
+
+/*5.
+查看员工名字长度不小于5，且第四个字母为n字母的员工id和工资
+*/
+select id,salary
+from s_emp
+where first_name like '___n_%'
+
+/*6.
+查看员工部门为41 或者 44号部门且工资小于1000的员工id和名字
+*/
+select id,first_name
+from s_emp
+where dept_id in (41,44) and salary<1000
+
+/*7.
+显示员工姓氏中第三个字母为“a”(不区分大小写)的所有员工的名字和姓氏
+*/
+select first_name,last_name
+from s_emp
+where regexp_like(last_name,'^..a','i')
+
+/*8.
+显示员工姓氏中有“a”和“e”的所有员工的姓氏和名字
+*/
+select first_name,last_name
+from s_emp
+where last_name like '%a%e%' or LAST_NAME like '%e%a%'
+
+/*9.
+显示在92年入职的所有员工的姓氏和录用日期,并按照姓氏升序排序 
+*/
+select last_name,start_date
+from s_emp
+where start_date>to_date('1992-01-01','yyyy-mm-dd')
+order by last_name asc
+
+/*10.
+查询有销售代表的客户名，销售编号
+*/
+select name,id
+from s_customer
+where sales_rep_id is not null
+
+/*11.
+查询92年9月1号以来下单(date_ordered)所有的订单编号,下单时间，订单总额
+s_ord表
+*/
+select id,date_ordered,total
+from s_ord
+where date_ordered>to_date('1992-09-01','yyyy-mm-dd')
+
+/*12.
+查询包含be的所有的员工名字,不区分大小写
+*/
+select first_name
+from s_emp
+where regexp_like(first_name,'^*be','i')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--数值函数
+	round()         --四舍五入
+	trunc()         --截取
+	mod()           --取余
+	ceil()          --向上取整
+	floor()         --向下取整
+  
+--日期函数
+	months_between(date1,date2);		--两个时间的月份差，包含小数
+	add_month(date,n)		--增加月份
+	add_month(date,n*12)	--增加年份
+	sysdate+n 				--增加天数n
+	
+	
+	
+	
+--单行函数   日期函数
+--2018年7月1日到现在经历了多少个月？
+select months_between(sysdate,'1-jul-18') from dual;
+select floor(months_between(sysdate,'1-jul-18')) from dual;--取整数
+
+--三个月后的今天？两年后的今天？
+select add_months(sysdate,1) from dual;
+select sysdate+2 from dual;
+select sysdate+10/24 from dual;  --增加小时
+
+--下个星期六的日期
+select next_day(sysdate,'saturday') from dual;
+
+--本月最后一天的日期是？
+select last_day(sysdate) from dual;
+
+/*
+select round(sysdate,'year') from dual;
+select round(sysdate,'mm') from dual;
+select round(sysdate,'dd') from dual;
+*/
+
+--今年的起始日期
+select trunc(sysdate,'mon') from dual;
+	
+--本周的星期一日期是？
+select next_day(sysdate,'monday') from dual;
+
+--员工表中查询进入公司的周数
+--先计算天数，然后天数除以7得到的就是周数
+select id,first_name,floor((sysdate-start_date)/7) weeks
+from s_emp;
+
+--查询员工进入公司的月数
+select id,first_name,round(months_between(sysdate,start_date)) months
+from s_emp;
+
+--当前时间，按年月日，时分秒来显示
+select to_char(sysdate,'yyyy-mm-dd hh-mm-ss') from dual;
+
+/*
+不超过800的，税率为0。
+800 – 900, 税率为0.09。
+900 -  1000，税率为0.20，
+1000 -  1100，税率为0.30，
+1100 – 1200，税率0.40，
+1200 – 1300，税率0.42，
+1300 – 1400，税率0.44，
+其他，税率0.45。
+*/
+select salary,
+		case
+			when salary<=800 then 0
+			when salary<=900 then 0.09
+			when salary<=1000 then 0.20
+			when salary<=1100 then 0.30
+			when salary<=1200 then 0.40
+			when salary<=1300 then 0.42
+			when salary<=1400 then 0.44
+			else 0.45
+		end tax
+	from s_emp;
+	
+--
+select id,decode(sign(salary-1250),1,'高薪','低薪') salary_lv
+from s_emp;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+--查询每个客户名，以及相应的销售名
+select c.name cname,e.first_name ename
+from s_customer c,s_emp e
+where c.sales_rep_id=e.id;
+
+
+--查询每个员工名所在的部门名区域名
+col ename format a10;
+col dname format a10;
+col rname format a10;
+select e.first_name ename,d.name dname,r.name rname
+from s_emp e, s_dept d,s_region r
+where e.dept_id=d.id and d.region_id=r.id;
+
+
+--查询员工编号，姓名，以及他领导的员工编号，姓名
+select e.id eid,e.first_name ename,m.id mid,m.first_name mname
+from s_emp e, s_emp m
+where e.manager_id=m.id
+
+
+
+
+
+
+
+
+
+
+
+--1.查询41号部门每个员工的编号，名字，部门名
+	select e.id,e.first_name||','||e.last_name name,d.id
+	from s_emp e,s_dept d
+	where d.id=41;
+	
+	
+--2.查询1号区域每个员工的编号，名字，薪资，部门名，并按照薪资升序排序	
+	select e.id,e.first_name||','||e.last_name name,e.salary,d.name 部门名
+	from s_region r,s_emp e,s_dept d
+	where r.id=1 and e.dept_id=d.id
+	order by e.salary asc;
+	
+	
+--3.查询1号区域每个客户的名字，及区域名	
+	select c.name,r.id
+	from s_customer c,s_region r
+	where c.region_id=1 and r.id=1;
+	
+	
+--4.列出所有客户的名字,及其对应的销售的first_name,要求没有销售的客户也显示出来,并且按照客户的名字降序输出。
+	select c.name,e.first_name
+	from s_customer c
+	left join s_emp e
+	on c.sales_rep_id=e.id; 
+	order by c.name desc;
+	
+--5.找出提成低于13的员工姓名，部门及提成，如果提成为空，显示0。	
+	select e.first_name||','||e.last_name name,d.id,NVL(e.commission_pct,0)
+	from s_emp e
+	left join s_dept d
+	on e.dept_id=d.id where NVL(e.commission_pct,0)<13;
+	
+	
+	select e.first_name||','||e.last_name name,d.id,nvl(e.commission_pct,0)
+	from s_emp e,s_dept d
+	where e.dept_id=d.id(+) and nvl(e.commission_pct,0)<13;
+	
+--6.查找所有薪水大于1500员工的last_name,salary,部门名并按照薪水升序排序。
+	select e.last_name,e.salary,d.id
+	from s_emp e,s_dept d
+	where e.dept_id=d.id and e.salary>1500
+	order by e.salary asc;
+
+--7.列出薪资高于其领导的所有员工，并按照员工id升序排序。
+	select e1.id,e1.first_name||','||e1.last_name name,e1.salary
+	from s_emp e1,s_emp e2
+	where e1.manager_id=e2.id and e1.salary>e2.salary
+	order by e1.id asc;
+
+--8.查找5号区域所有的客户名，客户编号，区域名。
+	select c.name 客户名,c.id,r.name 区域名
+	from s_customer c,s_region r
+	where c.region_id=r.id and r.id=5;
+
+--9.查找s_emp表中前3条记录
+	select id,first_name||','||last_name name
+	from s_emp
+	where rownum<4;
+
+--10.查询出s_emp表中的第6到10条记录
+	select id,first_name||','||last_name name,rownum
+	from s_emp
+	where rownum <=10
+	minus
+	select id,first_name||','||last_name name,rownum
+	from s_emp
+	where rownum <=5;
+
+--11.查询出每个订单及其对应的明细信息(s_ord,s_item,字段选择一部分即可)
+	select o.customer_id,o.date_ordered,i.item_id
+	from s_ord o,s_item i
+	where i.ord_id=o.id;
+
+--12.查询出100号订单及其对应的明细信息(s_ord,s_item,字段选择一部分即可)
+	select o.customer_id,o.date_ordered,i.item_id
+	from s_ord o,s_item i
+	where i.ord_id=o.id and o.id=100;
+
+--13.查询出每个客户的名字,对应的销售名字,对应的区域名字,如果没有销售显示暂无销售
+	select c.name 客户名,nvl(e.first_name,'暂无销售') 销售名,r.name 区域名
+	from s_customer c
+	left join s_emp e
+	on e.id=c.sales_rep_id
+	left join s_region r
+	on c.region_id=r.id;
+	
+	select c.name 客户名,nvl(e.first_name,'暂无销售') 销售名,r.name 区域名
+	from s_emp e,s_customer c,s_region r
+	where c.sales_rep_id=e.id(+) and c.region_id=r.id(+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--1.使用union关键字，查询所有员工编号大于10或者小于20的员工。
+select first_name,id
+from s_emp
+where id>10
+UNION
+select first_name,id
+from s_emp
+where id<20;
+	
+--2.使用union关键字，查询所有工资大于1000，或者是42号部门的员工。
+select id, salary, dept_id
+from s_emp 
+where salary > 1000
+union
+select id, salary, dept_id
+from s_emp 
+where dept_id = 42;
+	
+--3.使用intersect关键字，查询所有员工编号大于10并且小于20的员工。
+select first_name,id
+from s_emp
+where id>10
+intersect
+select first_name,id
+from s_emp
+where id<20;
+	
+--4.使用intersect关键字，查询所有工资大于1000，并且是42号部门的员工。
+select id, salary, dept_id
+from s_emp 
+where salary > 1000
+intersect
+select id, salary, dept_id
+from s_emp 
+where dept_id = 42;
+	
+--5.查询员工表中的前10行，查询员工编号，名字。
+select id,first_name,rownum
+from s_emp
+where rownum<11;
+	
+--6.查询员工表中的第11行~20行，查询员工编号，名字。
+select id,first_name,rownum
+from s_emp
+where rownum<=20
+minus
+select id,first_name,rownum
+from s_emp
+where rownum<=10;
+	
+--7.查询前10人的id，名字，薪资，rownum，并按照薪资升序排列。
+select id,first_name,salary,rownum
+from s_emp
+where rownum<=10
+order by salary asc;
+	
+--8.查询出每个部门的人数
+select dept_id,count(id)
+from s_emp
+group by dept_id;
+	
+--9.统计每个销售人员对应的客户数量。
+select sales_rep_id,count(id)
+from s_customer
+group by sales_rep_id;
+	
+--10.统计每个区域的部门的数量，显示区域id，区域名字，该区域的部门数量，并按区域id升序排序。
+select d.region_id,r.name,count(d.id)
+from s_dept d,s_region r
+where d.region_id=r.id
+group by d.region_id,r.name
+order by d.region_id asc;
+
+--11.统计1号区域每个部门的人数。
+select e.dept_id, count(e.dept_id)
+from s_emp e, s_dept d
+where e.dept_id=d.id and d.region_id=1
+group by e.dept_id;
+
+--12.统计每个区域员工的数量，平均薪资。
+select r.id,count(r.id),avg(e.salary)
+from s_emp e,s_dept d,s_region r
+where e.dept_id=d.id(+) and d.region_id=r.id(+)
+group by r.id;
+
+--13.查询出41号部门的平均薪资
+select d.id,avg(e.salary)
+from s_emp e,s_dept d
+where e.dept_id=d.id and d.id=41
+group by d.id;
+
+select avg(salary)
+from s_emp
+where dept_id=41;
+
+select dept_id,avg(salary)
+from s_emp
+group by dept_id
+having dept_id = 41;
+	
+--14.查询出每个员工薪资都高于1000的部门编号，部门平均薪资，人数。
+select dept_id,avg(salary),min(salary)
+from s_emp
+group by dept_id
+having min(salary)>1000;
+
+
+
+
+--1720411 
+--郭守义
+
+--1.查询s_emp表中按照薪资升序排序后的排在第4到6位的的三个员工信息
+	select id,first_name,salary
+	from
+	(
+	select rownum rn,id,first_name,salary
+	from s_emp
+	where rownum < 7
+	order by salary asc
+	)
+	where rn > 3;
+
+--2.列出平均薪水小于1400的所有部门的平均薪水及人数
+	select dept_id,round(avg(salary)),count(id)
+	from s_emp
+	group by dept_id
+	having avg(salary)<1400;
+
+--3.查看薪资大于Chang员工薪资的员工的信息【Chang是last_name】
+	select id,first_name,salary
+	from s_emp
+	where salary>(
+	select salary
+	from s_emp
+	where last_name='Chang'
+	);
+
+--4.查看薪资大于Chang员工薪资或者所在部门在3号区域下的员工的信息
+	select id,first_name,salary
+	from s_emp
+	where salary>(
+	select salary
+	from s_emp
+	where last_name='Chang'
+	)or dept_id in(
+	select id
+	from s_dept
+	where region_id=3
+	);
+
+--5.查询部门人数最多的部门编号，部门名
+	select *
+	from (
+	select count(e.id), e.dept_id did, d.name dname 
+	from s_emp e 
+	left join s_dept d 
+	on e.dept_id=d.id 
+	group by e.dept_id, d.name 
+	order by count(e.id) desc
+	) where rownum<=1;
+
+	select e.dept_id, d.name, count(e.id)
+	from s_emp e, s_dept d
+	where e.dept_id=d.id 
+	group by e.dept_id, d.name
+	having count(e.id)=(
+	select max(count(id))
+	from s_emp
+	group by dept_id
+	);
+
+--6.查找各部门的平均工资，包含字段部门编号，部门名，平均工资
+	select e.dept_id,d.name,round(avg(e.salary))
+	from s_emp e
+	left join s_dept d
+	on e.dept_id=d.id
+	group by e.dept_id,d.name;
+	
+
+--7.查看薪资高于Chang员工经理薪资的员工信息
+	select id,first_name,salary
+	from s_emp
+	where salary>(
+	select salary
+	from s_emp
+	where id=(
+	select manager_id
+	from s_emp
+	where last_name='Chang'
+	));
+
+--8.查看薪资大于Chang所在区域平均工资的员工信息
+	select id,first_name,salary
+	from s_emp
+	where salary>(
+	select avg(e.salary)
+	from s_emp e
+	left join s_dept d
+	on e.dept_id=d.id
+	group by d.region_id
+	having d.region_id=(
+	select region_id
+	from s_dept
+	where id=(
+	select dept_id
+	from s_emp
+	where last_name='Chang'
+	)));
+
+--9.查看Chang员工所在部门其他员工薪资总和
+	select sum(salary)
+	from s_emp
+	where dept_id =(
+	select dept_id
+	from s_emp e,s_dept d
+	where e.dept_id=d.id
+	and last_name='Chang')and(last_name!='Chang');
+
+--10.统计不由11号和12号员工负责的客户的人数
+	select count(id)
+	from s_customer
+	where sales_rep_id not in(11,12);
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	-- 1.	查询s_emp表中按照薪资升序排序后的排在第4到6位的的三个员工信息
+
+select id, first_name, salary
+from (
+  select rownum rn, id, first_name, salary
+  from (
+    select id, first_name, salary
+    from s_emp
+    order by salary
+  ) 
+  where rownum<7
+)
+where rn>3;
+
+select id, first_name, salary
+from(
+  select rownum rn, id, first_name, salary
+  from (
+    select id, first_name, salary
+    from s_emp
+    order by salary
+  )
+)  
+where rn between 4 and 6;
+
+
+-- 2.	列出平均薪水小于1400的所有部门的平均薪水及人数
+
+select dept_id, avg(salary) avg_sal, count(id)
+from s_emp
+group by dept_id
+having avg(salary)<1400;
+
+--  列出平均薪水小于1400的所有部门的部门id， 部门名字，所在区域id， 和区域名字，平均薪水及人数
+select d.id did, d.name dname, r.id rid, r.name rname, ds.avg_sal, ds.dept_count
+from s_dept d, s_region r, (
+  select dept_id, avg(salary) avg_sal, count(id) dept_count
+  from s_emp
+  group by dept_id
+  having avg(salary)<1400
+) ds
+where d.region_id=r.id 
+and d.id = ds.dept_id;
+
+
+select d.id did, d.name dname, r.id rid, r.name rname, ds.avg_sal, ds.dept_count
+from s_dept d
+left join s_region r
+on d.region_id=r.id
+left join (   
+  select dept_id, avg(salary) avg_sal, count(id) dept_count
+  from s_emp
+  group by dept_id
+  having avg(salary)<1400
+) ds
+on d.id=ds.dept_id;  
+
+
+-- 3.	查看薪资大于Chang员工薪资的员工的信息【Chang是last_name】
+select id, first_name, salary
+from s_emp
+where salary>(
+  select salary
+  from s_emp
+  where last_name='Chang'
+);
+
+-- 查看薪资大于Chang员工薪资的员工的信息【Chang是last_name】并且和Elena的职称(title)一样
+select id, first_name, salary, title
+from s_emp
+where salary>(
+  select salary
+  from s_emp
+  where last_name='Chang'
+) and 
+title=(
+  select title
+  from s_emp
+  where first_name='Elena'
+);
+
+-- 4.	查看薪资大于Chang员工薪资或者所在部门在3号区域下的员工的信息
+select e.id eid, e.first_name ename, e.salary, d.region_id
+from s_emp e
+left join s_dept d
+on e.dept_id=d.id
+where salary>(
+  select salary
+  from s_emp
+  where last_name='Chang'
+) OR
+d.region_id=3;
+
+
+-- 5.	查询部门人数最多的部门编号，部门名
+select dinfo.dept_id, d.name dname, dinfo.dept_count
+from (
+  select dept_id, count(id) dept_count
+  from s_emp e
+  group by dept_id
+  order by dept_count desc
+) dinfo
+left join s_dept d
+on dinfo.dept_id=d.id
+where rownum<2;
+
+select max(count(id))
+from s_emp
+group by dept_id;
+
+
+select e.dept_id, d.name, count(e.id)
+from s_emp e, s_dept d
+where e.dept_id=d.id 
+group by e.dept_id, d.name
+having count(e.id)=(
+  select max(count(id))
+  from s_emp
+  group by dept_id
+);
+
+
+-- 6.	查找各部门的平均工资，包含字段部门编号，部门名，平均工资
+select e.dept_id did, d.name dname, avg(e.salary)
+from s_emp e
+left join s_dept d
+on e.dept_id=d.id
+group by e.dept_id, d.name;
+
+
+
+-- 7.	查看薪资高于Chang员工经理薪资的员工信息
+select id, first_name, title, salary
+from s_emp
+where salary>(
+  select e2.salary
+  from s_emp e1, s_emp e2
+  where e1.manager_id=e2.id
+  and e1.last_name='Chang'
+);
+
+-- 8.	查看薪资大于Chang所在区域平均工资的员工信息
+-- 
+select id, first_name, salary
+from s_emp
+where salary>
+(
+   select avg(salary)
+   from s_emp e, s_dept d
+   where e.dept_id=d.id
+   and d.region_id=(
+      select region_id
+	  from s_emp e, s_dept d
+	  where e.dept_id=d.id
+	  and e.last_name='Chang'
+   )
+);
+
+9.	查看Chang员工所在部门其他员工薪资总和
+select sum(salary)
+from s_emp
+where dept_id =  (
+  select dept_id
+  from s_emp
+  where last_name='Chang'
+) and 
+last_name != 'Chang';
+
+
+10.	统计不由11号和12号员工负责的客户的人数
+select count(id)
+from s_customer
+where sales_rep_id not in (11,12);
+
+select count(id)
+from s_customer;
+
+select count(id)
+from s_customer
+where sales_rep_id in (11,12);
+
+select count(id)
+from s_customer
+where sales_rep_id not in (11,12) 
+OR sales_rep_id is null;
+
+select count(id)
+from s_customer
+where nvl(sales_rep_id, 0) not in (11,12);
+
+
+
+	
+	
+	
+	
+
+--给s_emp的主键创建一个序列 
+
+create sequence s_emp_id_seq    --序列的起名方式为    表名_主键名_seq
+start with 1					--起始值
+increment by 1;					--步长
+
+--序列不允许改变序列的初始值 
+alter sequence s_emp_id_seq
+increment by 1;
+
+
+
+drop sequence s_emp_id_seq;
+
+--序列查看是从已经定义的上一个值开始的，如果初始值定义的是1，那么在序列中的第一位就是0，
+--但是并没有存储数据，如果用currval的话就是从0开始查询，这样由于0位置并没有数据，所以查询结果出错
+--解决方法就是用nextval，自动转移向下一个位置。
+insert into s_emp
+(id,last_name,first_name)
+values
+(s_emp_id_seq.nextval,'python','datebasse');            --currval
+
+
+
+select sequence_name from user_sequences;  --查看序列
+
+
+
+
+--视图创建完成后可以将其看成一张表进行直接查询
+create or replace view vw_emp_salary		
+(id,name,salary)
+as
+	select id,first_name||''||last_name,salary
+	from s_emp;
+
+select * from vw_emp_salary;
+
+
+
+create or replace view vw_emp_dept_region
+as
+	select  e.id eid,e.first_name,d.id did,d.name,r.id rid,r.name rname
+	from s_emp  e
+	left join s_dept d
+	on e.dept_id=d.id
+	left join s_region r
+	on d.region_id=r.id
+with read only;					--只读格式的视图
+
+
+select * from vw_emp_dept_region;
+
+
+
+/*
+主键自带索引
+索引需要资源,需要占用内存
+word3
+*/
+
+--创建索引
+create index idx_s_emp_first_name			--给员工表的名字创建索引。起名格式：索引_表名_字段名
+on s_emp(first_name);
+
+drop index idx_s_emp_first_name;			--删除索引
+
+
+create index idx_s_dept_name				--给部门表的名字创建索引
+on s_dept(name);
+
+drop index idx_s_dept_name;
+
+
+
+--查看表中创建的索引
+
+select table_name,index_name
+from all_indexes
+where table_name='S_EMP';
+
+
+select table_name,index_name
+from all_indexes
+where table_name='S_DEPT';					--用table_name 进行查询的时候，表名要用大写，小写查询不到。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	

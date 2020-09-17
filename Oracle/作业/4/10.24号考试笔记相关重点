@@ -1,0 +1,29 @@
+distinct
+select distinct department from teacher;/*distinct 唯一*/
+commit;/*在insert into后，要在最后添加commit；提交数据，否则数据无法在数据库中产生，一直保存在缓冲区*/
+desc	--降序  
+asc		--升序，在降序和升序都存在的时候，可以前面写上升序或者降序，后面再继续添加升序或者降序。比如：order by no desc,id asc;
+floor	--16.9=16；		17.9=17
+
+
+round	--四舍五入    10.2=10     10.6=11     11.2=11    11.7=12
+		--Python中分奇偶数
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

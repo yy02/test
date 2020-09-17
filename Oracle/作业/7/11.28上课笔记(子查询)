@@ -1,0 +1,182 @@
+
+select dept_id,avg(salary)
+from s_emp
+group by dept_id
+having avg(salary)>1000;
+
+
+
+
+select dept_id,avg(salary),count(id)
+from s_emp
+group by dept_id
+having dept_id>40;
+
+
+
+--子查询过程中子查询返回的值必须与外层查询相关联；
+
+--查询薪资高于ben(first_name)的员工.				(where子查询)
+select id,first_name,salary
+from s_emp
+where salary>(
+select salary
+from s_emp
+where first_name='Ben'
+);
+
+
+--查询高于平均薪资的员工信息
+
+select id,first_name,salary
+from s_emp
+where salary>(
+ select avg(salary)
+ from s_emp
+);
+
+
+--查询elena所在部门的所有员工的平均薪资
+select avg(salary)
+from s_emp
+where dept_id=(
+select dept_id
+from s_emp
+where first_name = 'Elena'
+);
+
+
+select dept_id,avg(salary)
+from s_emp
+group by dept_id
+having dept_id=(
+	select dept_id
+	from s_emp
+	where first_name='Elena'
+);
+
+
+--查询一号区域所有员工的平均薪资（子查询完成）
+select round(avg(salary))
+from s_emp e
+left join s_dept d
+on e.dept_id=d.id
+where d.region_id=1;
+
+select round(avg(salary))
+from s_emp e
+where dept_id in(							--     in()
+	select id
+	from s_dept
+	where region_id=1
+);
+/*
+select dept_id,round(avg(salary))
+from s_emp
+group by dept_id
+having dept_id in(
+	select id
+	from s_dept
+	where region_id=1
+);
+*/
+
+
+
+--查找和elena一个部门和一样职称（title）的所有员工
+select id,first_name,dept_id,title
+from s_emp
+where (dept_id,title)=(
+	select dept_id,title
+	from s_emp
+	where first_name='Elena'
+);
+
+
+
+
+
+--查询人数高于44号部门人数的部门编号，部门人数
+
+select dept_id,count(id)
+from s_emp
+group by dept_id
+having count(id)>(
+select count(id)
+from s_emp
+where dept_id=44
+);
+
+
+
+--查询部门平均薪资高于公司平均薪资的部门编号，部门平均薪资
+select dept_id,avg(salary)
+from s_emp
+group by dept_id
+having avg(salary)>(
+select avg(salary)
+from s_emp
+);
+
+
+--查询员工表中第一条到第五条记录
+select id,first_name,salary
+from s_emp
+where rownum<6;
+
+
+--查询员工表第6-10条记录，员工编号和薪水                    子查询中rownum的用法！！！！不需要差集！！
+select id,salary
+from
+(
+	select rownum rn,id,first_name,salary
+	from s_emp
+	where rownum<11
+)
+where rn>5;
+
+
+--查询薪资最高的五个人的id，名字
+select id,first_name,salary
+from
+(
+select id,first_name,salary
+from s_emp
+order by salary desc
+)
+where rownum<6;
+
+
+
+select id,first_name,salary
+from
+(
+select rownum rn,id,first_name,salary
+from s_emp
+order by salary desc
+)
+where rn<6;
+
+
+
+--查询员工薪资大于1000的所有员工编号，名字，薪资，部门编号，部门名字，并按照薪资降序排序
+
+select id,first_name,salary,dept_id,
+(
+select name
+from s_dept d
+where e.dept_id=d.id
+) dname
+from s_emp e
+where salary>1000
+order by salary desc;
+
+
+--查询薪资高于同样职称的员工的平均薪资
+select id,first_name,title
+from s_emp
+where salary>(
+	select avg(salary)
+	from s_emp
+	where title=?
+);

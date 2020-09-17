@@ -1,0 +1,184 @@
+-- 查询41号部门每个员工的编号，名字，部门
+	select e.id eid,e.first_name ename,d.name dname
+	from s_emp e,s_dept d
+	where e.dept_id=41;
+	
+	select e.id eid, e.first_name ename, d.name dname
+	from s_emp e
+	left join s_dept d
+	on e.dept_id=d.id
+	where e.dept_id=41;
+	
+--查询1号区域每个员工的编号，名字，部门名，薪资，并按薪资升序排序
+	select e.id eid,e.first_name ename,e.salary,d.name dname
+	from s_emp e
+	left join s_dept d
+	on e,dept_id=d.id
+	where d.region_id=1
+	order by e.salary asc;
+	
+--查询一号区域每个客户的名字以及区域名
+	select c.name cname,r.name rname
+	from s_customer c
+	left join s_region r
+	on c.region_id=r.id
+	where r.id=1;
+	
+--找出所有用户的名字，以及对应销售的first_name，要求没有销售的客户也显示出来，并且按照客户的名字降序输出
+	select c.name cname,nvl(e.first_name,'暂无销售') ename
+	from s_customer c
+	left join s_emp e
+	on e.id=c.sales_rep_id
+	left join s_region r
+	on c.region_id=r.id
+	order by cname desc;
+
+--找出提成低于13的员工姓名，部门及提成，如果提成为空，显示0
+	
+	select e.first_name ename,d.name dname,nvl(e.commission_pct,0) "提成"
+	from s_emp e,s_dept d
+	where e.dept_id=e.id
+	and nvl(e.commission_pct,0)<13;
+
+--查找所有薪水大于1500员工的last_name，salary，部门名并按照薪水升序排序
+	
+	select e.last_name ename,e.salary esalary,d.name dname
+	from s_emp e
+	left join s_dept d
+	on e.dept_id=e.id
+	where e.salary>1500
+	order by e.salary asc;
+
+--列出薪资高于其他领导的所有员工，并且按照员工id升序排序
+	select e.id eid,e.salary esalary,e.first_name ename,
+			m.id mid,m.salary msalary,m.first_name mname
+	from s_emp e
+	left join s_emp m
+	on e.manager_id=m.id
+	where e.salary>m.salary
+	order by eid asc;
+	
+--查找5号区域所有的客户名，客户编号，区域名。
+	select c.name cname,c.id,r.name rname
+	from s_customer c,s_region r
+	where c.region_id=r.id and r.id=5;
+	
+	select c.name cname,c.id,r.name rname
+	from s_customer c
+	left join s_region r
+	on c.region_id=r.id 
+	where r.id=5;
+
+--查找s_emp表中的前三条记录
+	select rownum,id,first_name
+	from s_emp
+	where rownum<4;
+	
+	
+	----------------------------------------------以上为上周的作业---------------------------------------------------------
+--统计每个部门的人数
+	select dept_id,count(id)
+	from s_emp
+	group by dept_id;
+	
+--统计每个销售人员对应的客户数量
+	select sales_rep_id,count(id)
+	from s_customer
+	group by sales_rep_id;
+	
+--统计每个区域的部门数量
+	select region_id,count(id)
+	from s_dept
+	group by region_id
+	--order by region_id asc;
+
+--
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+

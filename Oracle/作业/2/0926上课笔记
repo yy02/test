@@ -1,0 +1,188 @@
+create user oaec identified by 1234;
+grant connect.resource to oaec;
+alter session nls_date_language=english;
+
+
+--表中添加数据
+--insert into 表名
+--(列1,列2,列3......)
+--values
+--(数据1,数据2......)
+/*
+查询  单表简单查询
+select 列或者表达式1,列或者表达式2.....
+from  表名
+
+*/
+--查询部门的所有信息
+	select id,name,region_id 
+	from s_dept;
+--查询员工的名、姓
+	select id,first_name,last_name 
+	from s_emp;                     								col first_name format a10/*规定长度为10*/
+--查询员工的月薪，年薪
+	select id,salary,salary*12 年薪  
+	from s_emp;
+--计算员工的工资，注意有些员工存在提成
+--nvl函数，有两个参数 ，第一个参数如果不为空，就返回第一个参数，为空就返回第二个参数；
+--例如：nvl(commission_pct,0)
+	select id,salary*(1+nvl(commission_pct,0)/100)*12 年薪 
+	from s_emp;
+--查询员工信息，提供员工编号，工号，职位和薪资
+	select id 编号,userid 工号,title 职位,salary 薪资
+	from s_emp;
+--查询部门名字，比较不用distinct和使用distinct，两种查询语句结果的不同。
+	select distinct name from s_dept;					/*distinctt   保证唯一性*/
+--查询员工编号，姓名和薪资
+	select id 编号, first_name 姓名, salary 薪资
+	from s_emp;
+	
+	select id 编号,concat(concat(first_name,','),last_name) 姓名,salary 			/* concat   拼接 */
+	from s_emp;
+
+--查询结果的排序
+--select 列或者表达式
+--from 表名
+--order by 列1[desc|asc], 列2[desc,asc]						/*默认升序*/
+
+--查询每个员工的id，dept_id,title，按照部门编号降序
+	select id,dept_id,title
+	from s_emp;
+	order by dept_id desc;
+	
+--查询每个员工的id,dept_id,title,按照部门编号降序，如果部门编号相同，按照职位升序排
+	select id,dept_id,title
+	from s_emp
+	order by dept_id desc,title asc;
+	
+--查询员工提成，俺提成升序排列，没有提成的置后
+--对于空值，nulls last表示所有的控制都放在最后，nulls first表示所有的空值在前； 
+	select id,salary,commission_pct
+	from s_emp
+	order by commission_pct desc nulls last;
+
+--条件查询
+--select 列或者表达式......
+--from 表名
+--where 条件(进行过滤)
+--order by 列1[desc|asc], 列2[desc,asc]	(先进行行筛选，在进行列筛选)
+
+--查询所有薪资高于1000的员工
+	select id,salary
+	from s_emp
+	where salary>1000;
+
+--查询所有的41号部门所有员工的id，dept_id,salary,按照薪资升序
+	select id,dept_id,salary
+	from s_emp
+	where dept_id=41
+	order by salary asc;
+	
+--查询所有薪资在1100到1550之间的员工
+	select id salary
+	from s_emp
+	where salary>=1100 and salary<=1550;
+	
+	where salary between 1100 and 1550;
+	
+--查询部门编号为41.44.45.50的员工
+	select id,dept_id,salary
+	from s_emp
+	where dept_id in (41,44,45,50)     /*系统翻译成下列方式再进行编译，所以下列方式效率较高*/
+	order by dept_id;
+	
+	
+	select id,dept_id,salary
+	from s_emp
+	where dept_id=41 or dept_id=44 or dept_id=45 or dept_id=50
+	order by dept_id;
+
+--查询没有提成的员工
+	select id,salary,commission_pct
+	from s_emp
+	where commission_pct is null;
+	
+--查询姓Smith的员工
+	select id,last_name
+	from s_emp
+	where last_name='Smith';
+
+--查询以字母C开头的员工名
+	select id,first_name
+	from s_emp
+	where first_name like 'C%';					/*like'C_'     表示以c开头的两个字符,下划线表示确定的，%表示没有确定个数。*/
+	
+--查找以y结尾的员工名
+	select id,first_name
+	from s_emp
+	where first_name like '%y';
+
+--查找第二个字母是e的员工名
+	select id,first_name
+	from s_emp
+	where first_name like '_e%';
+	
+--查找长度至少是4的员工名
+	select id,first_name
+	from s_emp
+	where first_name like '____%';
+
+/*
+	not between.....and....     ---表示不再区间内
+	not in 						---不再值列表内
+	is not null 				---不是空
+	not like  					---不以匹配的
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
