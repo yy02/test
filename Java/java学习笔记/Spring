@@ -25,6 +25,17 @@
                       
 4.Spring中bean的写法：
             
+            
+            <bean id="impl" class="com.gsy.dao.UserDaoImpl"/>
+            <bean id="mysqlImpl" class="com.gsy.dao.UserDaoMysqlImpl"/>
+      
+            <bean id="service" class="com.gsy.service.UserServiceImpl">
+            <property name="userDao" ref="impl"/>
+            </bean>
+            
+            
+            
+            
             传统Java的写法： 类型 变量名 = new 类型();
             
            <beans>
@@ -53,7 +64,11 @@
              
              
                                     
-6. 
+6. Spring的配置
+            
+      
+            
+            
                                     
                                     
                                     
