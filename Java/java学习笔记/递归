@@ -1,0 +1,58 @@
+public class demo02 {
+    public static void main(String[] args) {
+        demo02 e = new demo02();
+        e.test();
+        
+    }
+    public void test(){
+        test();
+    }
+}
+
+
+//递归就是再自己的方法中自己调用自己
+
+
+上述代码产生一个错误叫栈溢出：StackOverflowError！！
+
+
+递归可以大大的减少代码量，将复杂的问题简单化处理
+
+
+
+递归：包括两个部分：（套娃思想）
+    递归头：什么时候不调用自身，如果没有递归头将像上述代码一样进入死循环
+    递归体：什么时候调用自身
+    
+    
+    
+    递归的缺点：递归会带来大量的函数调用，会使栈内存崩掉，所以在基数大的时候不用递归。
+    
+    
+    
+    public class demo03 {
+    public static void main(String[] args) {
+        demo03 d = new demo03();
+        int a = d.f(8);
+        System.out.println(a);
+    }
+    //计算5的阶乘
+    public int f(int n){
+        if (n == 1){
+            return 1;
+        }else{
+            return n*f(n-1);//在这里调用本身
+        }
+    }
+}
+
+
+
+
+
+
+
+                  作业：实现加减乘除的计算器，与计算机交互；（先写四个方法，然后for循环，switch。）
+
+
+
