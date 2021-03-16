@@ -5,20 +5,19 @@
     
     可变参数的本质是数组；
     
+        
     public void A(double ... num){
         if(num.length == 0){
-          system.out.println("NO Arguments Pass")
+            System.out.println("NO Arguments Pass");
         }
-        
         double a = num[0];
         for(int i=0;i<num.length;i++){
-          if(num[i] > a){
-            a=num[i];
-          }
+            if(num[i] > a){
+                a=num[i];
+            }
         }
-        system.out.println("max num is"+a);
+        System.out.println("Max num is:"+a);
     }
-    
     
     
    
