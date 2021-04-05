@@ -1,0 +1,90 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+concat('名字',参数)      用来拼接查询的结果
+例如： 
+SELECT
+	concat( '学生姓名：', studentname ) AS 新名字 
+FROM
+	student
+  
+  
+  
+  
+  
+  
+  
+  distinct  去重操作运用的关键字    selete distinct ··· from ···
+  
+  selete version（）  查询sql当前的版本
+  selete 111*333    计算运算结果
+  selete @@auto_increment_increment 计算自增步长
+  
+  
+  
+  模糊查询
+  
+  like'%_'
+  
+  %百分号查询的话代表任意字符
+  _下划线代表一个字符
+  
+  
+  in()
+  代表具体的一个或者多个值
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
